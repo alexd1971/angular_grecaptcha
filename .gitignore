@@ -1,0 +1,13 @@
+build/
+packages/
+.buildlog
+.packages
+.project
+.pub/
+doc/api/
+pubspec.lock
+*.iml
+*.ipr
+*.iws
+.idea/
+.DS_Store
