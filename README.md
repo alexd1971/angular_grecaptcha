@@ -12,7 +12,7 @@ dependencies:
 
 ## Usage
 
-Add to your component using recatcha:
+Add to your component using recaptcha:
 
 ```dart
 import 'package:angular_grecaptcha/angular_grecaptcha.dart'
