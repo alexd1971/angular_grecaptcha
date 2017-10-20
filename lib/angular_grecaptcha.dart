@@ -1,1 +1,1 @@
-export 'src/grecaptcha.dart';
+export 'src/recaptcha.dart';

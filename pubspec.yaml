@@ -1,7 +1,12 @@
 name: angular_grecaptcha
-description: AngularDart wrap of Google ReCapcha
+description: AngularDart component which allows to put easyly Google ReCapcha verification to forms
 version: 0.0.1
-author: Aleksey Danilevskiy
+author: Aleksey Danilevskiy <alexey.danilevsky@gmail.com>
+homepage: https://github.com/alexd1971/angular_grecaptcha
+documentation:
+
+environment:
+    sdk: ">=1.8.0 <2.0.0"
 
 dependencies:
   angular: ^4.0.0
