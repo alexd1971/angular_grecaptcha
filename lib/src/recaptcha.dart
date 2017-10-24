@@ -1,3 +1,5 @@
+library angular_grecaptcha;
+
 import 'dart:html';
 import 'dart:js';
 import 'dart:js_util';
@@ -8,66 +10,100 @@ import 'api.js.dart';
 /// Angular Google ReCaptcha component
 /// 
 /// This component only adds recaptcha to your form.
-/// You have to verify recaptcha response server-side as described here:
-/// https://developers.google.com/recaptcha/docs/verify
+/// You have to verify recaptcha response server-side as described
+/// [here](https://developers.google.com/recaptcha/docs/verify)
 /// 
 /// Basic usage example:
 /// 
-///     <form>
-///       <!-- Here are some form fields -->
-///       <g-recaptcha sitekey="YOUR SITEKEY"></g-recaptcha>
-///       <button type="submit">Submit</button>
-///     </form>
+///     import 'package:angular_grecaptcha/angular_grecaptcha.dart';
+///     ...
+///     @Component(
+///       selector: 'my-component',
+///       template: '''
+///         ...
+///         <form>
+///           ...
+///           <g-recaptcha sitekey="YOUR SITEKEY"></g-recaptcha>
+///           ...
+///         </form>
+///         ...
+///       ''',
+///       directives: const [AngularRecaptcha]
+///     )
+///     class MyComponent {}
 /// 
-/// Original information is here:
-/// https://developers.google.com/recaptcha/docs/display#render_param 
 /// 
 /// Parameters:
 /// 
-/// - `sitekey: String` --  Your sitekey
-/// - `theme: String` --  Optional. The color theme of the widget. Values: light | dark.
+/// `sitekey` Your sitekey
+/// 
+/// `theme` Optional. The color theme of the widget. Values: light | dark.
 /// Default: light.
-/// - `type: String`  --  Optional. The type of CAPTCHA to serve. Values: audio | image.
+/// 
+/// `type` Optional. The type of CAPTCHA to serve. Values: audio | image.
 /// Default: image.
-/// - `size: String`  --  Optional. The size of the widget. Values: compact | normal.
+/// 
+/// `size` Optional. The size of the widget. Values: compact | normal.
 /// Default: normal.
-/// - `tabindex: int` --  Optional. The tabindex of the widget and challenge. 
+/// 
+/// `tabindex` Optional. The tabindex of the widget and challenge. 
 /// If other elements in your page use tabindex, it should be set to make user navigation easier.
 /// Default: 0
-/// - `callback: Function`  --  Optional. The name of your callback function to be executed
+/// 
+/// `callback` Optional. The name of your callback function to be executed
 /// when the user submits a successful CAPTCHA response. The user's response, g-recaptcha-response,
 /// will be the input for your callback function.
-/// - `expired-callback: Function`  --  Optional. The name of your callback function to be executed
+/// 
+/// `expired-callback` Optional. The name of your callback function to be executed
 /// when the recaptcha response expires and the user needs to solve a new CAPTCHA.
+/// 
+/// Original information about parameters is [here](https://developers.google.com/recaptcha/docs/display#render_param)
 @Component(
   selector: 'g-recaptcha',
   template: ''
 )
-class Recaptcha implements OnInit {
+class AngularRecaptcha implements OnInit {
+  /// Your sitekey
   @Input()
   String sitekey;
+  /// Optional. The color theme of the widget. Values: light | dark
+  /// Default: light.
   @Input()
   String theme;
+  /// Optional. The type of CAPTCHA to serve. Values: audio | image.
+  /// Default: image.
   @Input()
   String type;
+  /// Optional. The size of the widget. Values: compact | normal.
+  /// Default: normal.
   @Input()
   String size;
+  /// Optional. The tabindex of the widget and challenge. 
+  /// If other elements in your page use tabindex, it should be set to make user navigation easier.
+  /// Default: 0
   @Input()
   int tabindex;
+  /// Optional. The name of your callback function to be executed
+  /// when the user submits a successful CAPTCHA response. The user's response, g-recaptcha-response,
+  /// will be the input for your callback function.
   @Input()
   Function callback;
+  /// Optional. The name of your callback function to be executed
+  /// when the recaptcha response expires and the user needs to solve a new CAPTCHA.
   @Input('expired-callback')
   Function expiredCallback;
-
+  /// Initializes Angular Google ReCaptcha component
   @override
   void ngOnInit() {
-    // Loading recaptcha API
-    final apiJs = new ScriptElement();
-    apiJs
-      ..type = 'text/javascript'
-      ..src = 'https://www.google.com/recaptcha/api.js?render=explicit'
-      ..async = true;
-    document.body.children.add(apiJs);
+    // Loading recaptcha API only if it is not loaded yet
+    if(context['grecaptcha'] == null) {
+      final apiJs = new ScriptElement();
+      apiJs..type = 'text/javascript'
+          ..src = 'https://www.google.com/recaptcha/api.js?render=explicit'
+          ..async = true;
+
+      document.body.children.add(apiJs);
+    }
 
     // Rendering recaptcha after API is loaded
     document.onReadyStateChange.listen((_) {

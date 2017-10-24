@@ -6,7 +6,7 @@ Put following lines in pubspec.yaml:
 
 ```yaml
 dependencies:
-  angular_grecaptcha: ^0.0.1
+  angular_grecaptcha: ^0.0.2
 ```
 
 then
@@ -31,7 +31,7 @@ import 'package:angular_grecaptcha/angular_grecaptcha.dart';
     </form>
     ...
   ''',
-  directives: const [Recaptcha]
+  directives: const [AngularRecaptcha]
 )
 class MyComponent {}
 ```
@@ -47,7 +47,7 @@ Besides mandatory `sitekey` parameter you can add optional render parameters:
 
 Original parameters description you can find [here](https://developers.google.com/recaptcha/docs/display#render_param)
 
-## More complicated usage example
+## Advanced usage example
 
 Advanced usage example you can find [here](https://gist.github.com/alexd1971/e973dc20abfddf29f4ea77eec7f84347)
 
