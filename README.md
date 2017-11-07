@@ -6,7 +6,7 @@ Put following lines in pubspec.yaml:
 
 ```yaml
 dependencies:
-  angular_grecaptcha: ^0.0.2
+  angular_grecaptcha: ^0.0.3
 ```
 
 then

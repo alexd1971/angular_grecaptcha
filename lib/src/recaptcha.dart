@@ -1,5 +1,6 @@
 library angular_grecaptcha;
 
+import 'dart:async';
 import 'dart:html';
 import 'dart:js';
 import 'dart:js_util';
@@ -62,7 +63,7 @@ import 'api.js.dart';
   selector: 'g-recaptcha',
   template: ''
 )
-class AngularRecaptcha implements OnInit {
+class AngularRecaptcha implements OnInit, AfterViewInit {
   /// Your sitekey
   @Input()
   String sitekey;
@@ -92,33 +93,39 @@ class AngularRecaptcha implements OnInit {
   /// when the recaptcha response expires and the user needs to solve a new CAPTCHA.
   @Input('expired-callback')
   Function expiredCallback;
+
   /// Initializes Angular Google ReCaptcha component
   @override
   void ngOnInit() {
     // Loading recaptcha API only if it is not loaded yet
     if(context['grecaptcha'] == null) {
-      final apiJs = new ScriptElement();
-      apiJs..type = 'text/javascript'
+      document.body.children.add(
+        new ScriptElement()
+          ..type = 'text/javascript'
           ..src = 'https://www.google.com/recaptcha/api.js?render=explicit'
-          ..async = true;
-
-      document.body.children.add(apiJs);
+          ..async = true
+      );
     }
+  }
 
+  @override
+  void ngAfterViewInit() {
     // Rendering recaptcha after API is loaded
-    document.onReadyStateChange.listen((_) {
-      if(document.readyState == 'complete') {
-        Element grecaptcha = querySelector('g-recaptcha');
-        GRecaptcha.render(grecaptcha, jsify({
-          'sitekey': sitekey,
-          'theme': theme,
-          'type': type,
-          'size': size,
-          'tabindex': tabindex,
-          'callback': callback == null ? null : allowInterop(callback),
-          'expired-callback': expiredCallback == null ? null : allowInterop(expiredCallback)
-        }));
+    new Timer.periodic(new Duration(milliseconds: 10) , (timer) {
+      if(context['grecaptcha'] == null){
+        return;
       }
+      timer.cancel();
+      Element grecaptcha = querySelector('g-recaptcha');
+      GRecaptcha.render(grecaptcha, jsify({
+        'sitekey': sitekey,
+        'theme': theme,
+        'type': type,
+        'size': size,
+        'tabindex': tabindex,
+        'callback': callback == null ? null : allowInterop(callback),
+        'expired-callback': expiredCallback == null ? null : allowInterop(expiredCallback)
+      }));
     });
   }
 }
