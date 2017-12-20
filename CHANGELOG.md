@@ -1,3 +1,7 @@
+## 0.0.4
+
+Added grecaptcha.execute() support
+
 ## 0.0.3
 
 Fixed the bug when the ReCaptcha was not rendered after navigating via an Angular Routing Link to a component containing the ReCaptcha

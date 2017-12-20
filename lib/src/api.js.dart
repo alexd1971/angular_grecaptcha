@@ -13,6 +13,9 @@ class GRecaptcha {
   /// `container` The HTML element to render the reCAPTCHA widget.  Specify either the ID of the container (string) or the DOM element itself.
   /// `parameters` An object containing parameters as key=value pairs, for example, {"sitekey": "your_site_key", "theme": "light"}
   external static String render(container, parameters);
+  /// Programatically invoke the reCAPTCHA check. Used if the invisible reCAPTCHA is on a div instead of a button.
+  /// `opt_widget_id`  Optional widget ID, defaults to the first widget created if unspecified.
+  external static void execute([String opt_widget_id]);
   /// Resets the reCAPTCHA widget.
   /// `opt_widget_id` Optional widget ID, defaults to the first widget created if unspecified
   external static void reset([String opt_widget_id]);
